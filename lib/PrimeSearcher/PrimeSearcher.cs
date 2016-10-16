@@ -27,5 +27,30 @@ namespace Primes
         }
 
         public static List<int> Sieve(int highBound) => SieveImplementation(highBound).Item1;
+
+        public static List<int> DoubleSieve(int highBound) 
+        {
+            if (highBound <= 1) return new List<int>();
+            var midBound = (int) Math.Sqrt(highBound);
+            var sieveTuple = SieveImplementation((int)Math.Sqrt(highBound));
+            var firstPrimes = sieveTuple.Item1;
+            var primes = new BitArray(highBound - midBound, true);
+            foreach (var prime in firstPrimes) 
+            {
+                var remainder = midBound % prime;
+                for (int j = remainder == 0 ? 0 : prime - remainder; j < highBound - midBound; j += prime)
+                {
+                    primes.Set(j, false);
+                }
+            }
+            for (int i = 0; i < primes.Length; i++) 
+            {
+                if (primes.Get(i))
+                {
+                    firstPrimes.Add(i + midBound);
+                }
+            }
+            return firstPrimes;
+        }
     }
 }

@@ -9,7 +9,8 @@ namespace Tests
         [Fact]
         public void TestFirstPrimes() 
         {
-            var list = PrimeSearcher.Sieve(200);
+            var sieveResult = PrimeSearcher.Sieve(200);
+            var doubleSieveResult = PrimeSearcher.DoubleSieve(200);
             var truePrimes = new int[] {
                 2, 3, 5, 7, 11, 13, 17, 
                 19, 23, 29, 31, 37, 41, 
@@ -20,18 +21,21 @@ namespace Tests
                 151, 157, 163, 167, 173, 
                 179, 181, 191, 193, 197, 199
             };
-            for (int i = 0; i < list.Count; i++) 
+            for (int i = 0; i < sieveResult.Count; i++) 
             {
-                Assert.True(list[i] == truePrimes[i], $"{i} position prime must be {truePrimes[i]}. Actual: {list[i]}");
+                Assert.True(sieveResult[i] == truePrimes[i], $"{i} position prime must be {truePrimes[i]}. Actual: {sieveResult[i]}");
+                Assert.True(doubleSieveResult[i] == truePrimes[i], $"{i} position prime must be {truePrimes[i]}. Actual: {doubleSieveResult[i]}");
             }
         }
 
         [Fact]
         public void TestPrimesCount()
         {
-            var list = PrimeSearcher.Sieve(100000);
+            var sieveResult = PrimeSearcher.Sieve(100000);
+            var doubleSieveResult = PrimeSearcher.DoubleSieve(100000);
             var trueCount = 9592;
-            Assert.True(list.Count == trueCount, $"Primes count before 100000 is {trueCount}. Actual: {list.Count}");
+            Assert.True(sieveResult.Count == trueCount, $"Primes count before 100000 is {trueCount}. Actual: {sieveResult.Count}");
+            Assert.True(doubleSieveResult.Count == trueCount, $"Primes count before 100000 is {trueCount}. Actual: {doubleSieveResult.Count}");
         }
 
         [Theory]
@@ -40,8 +44,10 @@ namespace Tests
         [InlineData(0)]
         public void TestNegativeParameter(int arg) 
         {
-            var list = PrimeSearcher.Sieve(arg);
-            Assert.True(list.Count == 0, $"Primes count with negative argument must be 0. Actual: {list.Count}");
+            var sieveResult = PrimeSearcher.Sieve(arg);
+            var doubleSieveResult = PrimeSearcher.DoubleSieve(arg);
+            Assert.True(sieveResult.Count == 0, $"Primes count with negative argument must be 0. Actual: {sieveResult.Count}");
+            Assert.True(doubleSieveResult.Count == 0, $"Primes count with negative argument must be 0. Actual: {doubleSieveResult.Count}");
         }
     }
 }
